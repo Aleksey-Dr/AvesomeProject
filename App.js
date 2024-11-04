@@ -1,32 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, ImageBackground, } from 'react-native';
-import RegistrationScreen from './Screens/RegistrationScreen.jsx';
+import 'react-native-gesture-handler';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-import IMAGE from "./assets/photo_BG.jpg"
+import RegistrationScreen from './Screens/RegistrationScreen.jsx';
+import LoginScreen from './Screens/LoginScreen.jsx';
+
+const MainStack = createStackNavigator();
 
 export default function App() {
   return (
-    
-      <ImageBackground
-        source={IMAGE}
-        resizeMode="cover"
-        style={styles.container}
-      >
-        <RegistrationScreen />
-        <StatusBar style="auto" />
-      </ImageBackground>
-      
+      <NavigationContainer>
+        <MainStack.Navigator initialRouteName="RegistrationScreen">
+          <MainStack.Screen name="Registration" component={RegistrationScreen} />
+          <MainStack.Screen name="Login" component={LoginScreen} />
+        </MainStack.Navigator>
+      </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageBG: {
-    height: "100%",
-  },
-});

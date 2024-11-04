@@ -1,10 +1,25 @@
-import { StyleSheet, Text, View, TextInput, Pressable, TouchableOpacity, Alert, Image, } from "react-native";
 import React, { useState } from "react";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Pressable,
+    TouchableOpacity,
+    Alert,
+    Image,
+    TouchableWithoutFeedback,
+    KeyboardAvoidingView,
+    Keyboard,
+    Platform,
+} from "react-native";
 import { Svg, Path } from 'react-native-svg';
+
+import Background from "../components/Background";
 
 import IMAGE from "../assets/avatar.jpg";
 
-export default RegistrationScreen = () => {
+export default RegistrationScreen = ({ navigation }) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [isFocusedLogin, setIsFocusedLogin] = useState(false);
     const [isFocusedEmail, setIsFocusedEmail] = useState(false);
@@ -30,98 +45,104 @@ export default RegistrationScreen = () => {
     };
 
     return (
-        <View style={styles.containerRegistration}>
-            <View style={styles.containerAvatar}>
-                {addedAvatar &&
-                    <Image
-                        source={IMAGE}
-                        style={styles.imageAvatar}
-                    />
-                }
-                <Pressable
-                    onPress={() => setAddedAvatar(!addedAvatar)}
-                    style={[styles.btnAddAvatar, {borderColor: !addedAvatar ? "#FF6C00" : "#DBDBDB"}]}
-                >
-                    {!addedAvatar ?
-                        <Svg
-                            width="20" height="20"
-                            viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+        <Background>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.containerRegistration}>
+                    <View style={styles.containerAvatar}>
+                        {addedAvatar &&
+                            <Image
+                                source={IMAGE}
+                                style={styles.imageAvatar}
+                            />
+                        }
+                        <Pressable
+                            onPress={() => setAddedAvatar(!addedAvatar)}
+                            style={[styles.btnAddAvatar, {borderColor: !addedAvatar ? "#FF6C00" : "#DBDBDB"}]}
                         >
-                            <Path
-                                d="M3.75 12H20.25M12 3.75V20.25"
-                                stroke="#FF6C00"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"/>
-                        </Svg> :
-                        <Svg
-                            width="20" height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <Path
-                                d="M18.75 5.25L5.25 18.75M18.75 18.75L5.25 5.25"
-                                stroke="#DBDBDB"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"/>
-                        </Svg>
-                    }
-                </Pressable>
-            </View>
-            <Text style={styles.title}>Реєстрація</Text>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    placeholder="Логін"
-                    placeholderTextColor="#BDBDBD"
-                    value={login}
-                    maxLength={40}
-                    onChangeText={setLogin}
-                    onFocus={() => setIsFocusedLogin(true)}
-                    onBlur={() => setIsFocusedLogin(false)}
-                    style={[styles.input, {borderColor: isFocusedLogin ? "#FF6C00" : "#E8E8E8"}]}
-                />
-                <TextInput
-                    placeholder="Адреса електронної пошти"
-                    placeholderTextColor="#BDBDBD"
-                    value={email}
-                    maxLength={40}
-                    onChangeText={setEmail}
-                    onFocus={() => setIsFocusedEmail(true)}
-                    onBlur={() => setIsFocusedEmail(false)}
-                    style={[styles.input, {borderColor: isFocusedEmail ? "#FF6C00" : "#E8E8E8"}]}
-                />
-                <View style={styles.passwordContainer}>
-                    <TextInput
-                        placeholder="Пароль"
-                        placeholderTextColor="#BDBDBD"
-                        secureTextEntry={!passwordVisible}
-                        value={password}
-                        maxLength={40}
-                        onChangeText={setPassword}
-                        onFocus={() => setIsFocusedPassword(true)}
-                        onBlur={() => setIsFocusedPassword(false)}
-                        style={[styles.input, {borderColor: isFocusedPassword ? "#FF6C00" : "#E8E8E8"}]}
-                    />
+                            {!addedAvatar ?
+                                <Svg
+                                    width="20" height="20"
+                                    viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <Path
+                                        d="M3.75 12H20.25M12 3.75V20.25"
+                                        stroke="#FF6C00"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"/>
+                                </Svg> :
+                                <Svg
+                                    width="20" height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <Path
+                                        d="M18.75 5.25L5.25 18.75M18.75 18.75L5.25 5.25"
+                                        stroke="#DBDBDB"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"/>
+                                </Svg>
+                            }
+                        </Pressable>
+                    </View>
+                    <Text style={styles.title}>Реєстрація</Text>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            placeholder="Логін"
+                            placeholderTextColor="#BDBDBD"
+                            value={login}
+                            maxLength={40}
+                            onChangeText={setLogin}
+                            onFocus={() => setIsFocusedLogin(true)}
+                            onBlur={() => setIsFocusedLogin(false)}
+                            style={[styles.input, {borderColor: isFocusedLogin ? "#FF6C00" : "#E8E8E8"}]}
+                        />
+                        <TextInput
+                            placeholder="Адреса електронної пошти"
+                            placeholderTextColor="#BDBDBD"
+                            value={email}
+                            maxLength={40}
+                            onChangeText={setEmail}
+                            onFocus={() => setIsFocusedEmail(true)}
+                            onBlur={() => setIsFocusedEmail(false)}
+                            style={[styles.input, {borderColor: isFocusedEmail ? "#FF6C00" : "#E8E8E8"}]}
+                        />
+                        <View style={styles.passwordContainer}>
+                            <TextInput
+                                placeholder="Пароль"
+                                placeholderTextColor="#BDBDBD"
+                                secureTextEntry={!passwordVisible}
+                                value={password}
+                                maxLength={40}
+                                onChangeText={setPassword}
+                                onFocus={() => setIsFocusedPassword(true)}
+                                onBlur={() => setIsFocusedPassword(false)}
+                                style={[styles.input, {borderColor: isFocusedPassword ? "#FF6C00" : "#E8E8E8"}]}
+                            />
+                            <TouchableOpacity
+                                onPress={() => setPasswordVisible(!passwordVisible)}
+                                style={styles.toggleVisible}
+                            >
+                                <Text style={styles.microText}>
+                                    {passwordVisible ? "Сховати" : "Показати"}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <Pressable onPress={handleSubmit} style={styles.btn}>
+                        <Text style={styles.btnText}>Зареєстуватися</Text>
+                    </Pressable>
                     <TouchableOpacity
-                        onPress={() => setPasswordVisible(!passwordVisible)}
-                        style={styles.toggleVisible}
+                        onPress={() => navigation.navigate("Login")}
                     >
-                        <Text style={styles.microText}>
-                            {passwordVisible ? "Сховати" : "Показати"}
-                        </Text>
+                        <Text style={styles.microText}>Вже є акаунт? Увійти</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
-            <Pressable onPress={handleSubmit} style={styles.btn}>
-                <Text style={styles.btnText}>Зареєстуватися</Text>
-            </Pressable>
-            <TouchableOpacity>
-                <Text style={styles.microText}>Вже є акаунт? Увійти</Text>
-            </TouchableOpacity>
-        </View>
+            </TouchableWithoutFeedback>
+        </Background>
     );
 };
 
@@ -237,5 +258,5 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 16,
         color: "#1B4371",
-    }
+    },
 });
