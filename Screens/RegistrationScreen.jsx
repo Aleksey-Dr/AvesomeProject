@@ -9,13 +9,12 @@ import {
     Alert,
     Image,
     TouchableWithoutFeedback,
-    KeyboardAvoidingView,
     Keyboard,
-    Platform,
 } from "react-native";
-import { Svg, Path } from 'react-native-svg';
 
 import Background from "../components/Background";
+import PlusIcon from "../icons/PlusIcon";
+import CloseIcon from "../icons/CloseIcon";
 
 import IMAGE from "../assets/avatar.jpg";
 
@@ -31,14 +30,15 @@ export default RegistrationScreen = ({ navigation }) => {
 
     const handleSubmit = () => {
         if (login && email && password) {
-            console.log("Submitted with values:", {
-                login,
-                email,
-                password,
-            });
-            setLogin('');
-            setEmail('');
-            setPassword('');
+                console.log("Submitted with values:", {
+                    login,
+                    email,
+                    password,
+                });
+                setLogin('');
+                setEmail('');
+                setPassword('');
+                navigation.navigate("Posts");
         } else {
             Alert.alert("Помилка", "Будь ласка, заповніть всі поля");
         }
@@ -59,33 +59,7 @@ export default RegistrationScreen = ({ navigation }) => {
                             onPress={() => setAddedAvatar(!addedAvatar)}
                             style={[styles.btnAddAvatar, {borderColor: !addedAvatar ? "#FF6C00" : "#DBDBDB"}]}
                         >
-                            {!addedAvatar ?
-                                <Svg
-                                    width="20" height="20"
-                                    viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <Path
-                                        d="M3.75 12H20.25M12 3.75V20.25"
-                                        stroke="#FF6C00"
-                                        stroke-width="1.5"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"/>
-                                </Svg> :
-                                <Svg
-                                    width="20" height="20"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <Path
-                                        d="M18.75 5.25L5.25 18.75M18.75 18.75L5.25 5.25"
-                                        stroke="#DBDBDB"
-                                        stroke-width="1.5"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"/>
-                                </Svg>
-                            }
+                            {!addedAvatar ? <PlusIcon /> : <CloseIcon />}
                         </Pressable>
                     </View>
                     <Text style={styles.title}>Реєстрація</Text>

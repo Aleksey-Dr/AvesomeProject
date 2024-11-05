@@ -30,6 +30,7 @@ export default LoginScreen = ({ navigation }) => {
             });
             setEmail('');
             setPassword('');
+            navigation.navigate("Posts");
         } else {
             Alert.alert("Помилка", "Будь ласка, заповніть всі поля");
         }
