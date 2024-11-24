@@ -1,6 +1,6 @@
 import { StyleSheet, ImageBackground, } from "react-native";
 
-import IMAGE_BG from "../assets/photo_BG.jpg"
+import IMAGE_BG from "../../assets/photo_BG.jpg"
 
 export default Background = ({ children }) => {
     return (

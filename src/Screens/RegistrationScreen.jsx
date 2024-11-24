@@ -13,10 +13,11 @@ import {
 } from "react-native";
 
 import Background from "../components/Background";
+
 import PlusIcon from "../icons/PlusIcon";
 import CloseIcon from "../icons/CloseIcon";
 
-import IMAGE from "../assets/avatar.jpg";
+import IMAGE from "../../assets/avatar.jpg";
 
 export default RegistrationScreen = ({ navigation }) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
         marginBottom: 32,
         textAlign: "center",
         fontSize: 30,
+        fontWeight: "500",
     },
     inputContainer: {
         gap: 16,

@@ -2,11 +2,11 @@ import { TouchableOpacity } from "react-native";
 import UserIcon from "../icons/UserIcon";
 import { useNavigation } from '@react-navigation/native';
 
-const ProfileBtn = () => {
+const ProfileBtn = ({ color }) => {
     const navigation = useNavigation();
     return (
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-            <UserIcon />
+            <UserIcon color={color} />
         </TouchableOpacity>
     );
 };

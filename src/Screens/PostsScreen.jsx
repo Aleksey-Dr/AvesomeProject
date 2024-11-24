@@ -3,17 +3,17 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput,
-    Pressable,
-    TouchableOpacity,
-    Alert,
     Image,
     FlatList,
     TouchableWithoutFeedback,
     Keyboard,
 } from "react-native";
 
-import IMAGE from "../assets/avatar.jpg";
+import PostCard from "../components/PostCard";
+
+import IMAGE from "../../assets/avatar.jpg";
+
+import { posts } from "../data/data";
 
 export default PostsScreen = () => {
     return (
@@ -36,6 +36,14 @@ export default PostsScreen = () => {
                         <Text style={styles.emailContainer}>email@example.com</Text>
                     </View>
                 </View>
+                <View>
+                    <FlatList
+                        data={posts}
+                        renderItem={({ item }) => <PostCard card={item} />}
+                        keyExtractor={(item) => item.id}
+                        ItemSeparatorComponent={() => <View style={{ height: 32 }}></View>}
+                    />
+                </View>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -55,6 +63,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        marginBottom: 32,
     },
     avatarContainer: {
         width: 60,
