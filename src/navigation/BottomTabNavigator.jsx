@@ -12,6 +12,7 @@ import PostsScreen from "../Screens/PostsScreen.jsx";
 import CreatePostsScreen from "../Screens/CreatePostsScreen.jsx";
 import ProfileScreen from "../Screens/ProfileScreen.jsx";
 import CommentsScreen from "../Screens/CommentsScreen.jsx";
+import MapScreen from "../Screens/MapScreen.jsx";
 
 import LogoutBtn from "../components/LogoutBtn.jsx";
 import PostsBtn from "../components/PostsBtn.jsx";
@@ -45,6 +46,7 @@ export default BottomTabNavigator = () => {
                 name="Registration"
                 component={RegistrationScreen}
                 options={{
+                    headerShown: false,
                     tabBarStyle: { display: "none" },
                     tabBarItemStyle: { display: "none" }
                 }}
@@ -133,6 +135,22 @@ export default BottomTabNavigator = () => {
                 component={CommentsScreen}
                 options={{
                     title: "Коментарі",
+                    headerStatusBarHeight: 44,
+                    headerLeftContainerStyle: {
+                        paddingLeft: 16,
+                    },
+                    headerLeft: () => (
+                        <BackBtn />
+                    ),
+                    tabBarStyle: { display: "none" },
+                    tabBarItemStyle: { display: "none" }
+                }}
+            />
+            <Tabs.Screen
+                name="Map"
+                component={MapScreen}
+                options={{
+                    title: "Карта",
                     headerStatusBarHeight: 44,
                     headerLeftContainerStyle: {
                         paddingLeft: 16,

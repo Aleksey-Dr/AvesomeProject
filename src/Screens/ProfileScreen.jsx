@@ -47,6 +47,7 @@ const ProfileScreen = () => {
                     renderItem={({ item }) => <PostCard card={item} />}
                     keyExtractor={(item) => item.id}
                     ItemSeparatorComponent={() => <View style={{ height: 32 }}></View>}
+                    contentContainerStyle={styles.postsList}
                 />
             </View>
         </Background>
@@ -59,11 +60,9 @@ const styles = StyleSheet.create({
 
         width: '100%',
         height: 515,
-        
         paddingTop: 92,
         paddingRight: 16,
         paddingLeft: 16,
-
         marginTop: 'auto',
 
         borderTopLeftRadius: 25,
@@ -116,55 +115,8 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: "500",
     },
-    inputContainer: {
-        gap: 16,
-        marginBottom: 43,
-    },
-    input: {
-        width: "100%",
-        height: 50,
-
-        paddingTop: 16,
-        paddingBottom: 15,
-        paddingLeft: 16,
-
-        borderWidth: 1,
-        borderRadius: 8,
-        backgroundColor: "#F6F6F6",
-
-        fontSize: 16,
-    },
-    passwordContainer: {
-        position: 'relative',
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    toggleVisible: {
-        position: 'absolute',
-        right: 16,
-    },
-    btn: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-
-        width: "100%",
-        height: 51,
-
-        marginBottom: 16,
-
-        borderRadius: 100,
-        backgroundColor: "#FF6C00",
-    },
-    btnText: {
-        textAlign: "center",
-        fontSize: 16,
-        color: "#FFFFFF",
-    },
-    microText: {
-        textAlign: "center",
-        fontSize: 16,
-        color: "#1B4371",
+    postsList: {
+        paddingBottom: 16,
     },
 });
 

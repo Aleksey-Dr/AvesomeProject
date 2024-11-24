@@ -1,46 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     Text,
     View,
     TextInput,
-    Pressable,
     TouchableOpacity,
-    Alert,
     TouchableWithoutFeedback,
     KeyboardAvoidingView,
     Keyboard,
     Platform,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import * as Location from "expo-location";
 
-import CameraIcon from "../icons/CameraIcon";
+import CameraFrame from "../components/CameraFrame";
+
+import MapPinIcon from "../icons/MapPinIcon";
 import TrashIcon from "../icons/TrashIcon.jsx";
 
 const CreatePosts = () => {
+    const [preview, setPreview] = useState(null);
+    const [name, setName] = useState("");
+    const [place, setPlace] = useState("");
+
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+    const navigation = useNavigation();
+
+    const onPublishHandler = () => {
+        console.log({ preview, name, place, location });
+        navigation.navigate("Posts");
+    };
+
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== "granted") {
+            setErrorMsg("Permission to access location was denied");
+            return;
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation(location);
+        })();
+    }, []);
+
+    const isAllowed = !!preview && !!name && !!place && !!location;
+
     return (
-        <View style={styles.containerCreatePosts}>
-            <Pressable style={styles.downloadPhotoBtn}>
-                <View style={styles.containerCameraIcon}>
-                    <CameraIcon />
-                </View>
-            </Pressable>
-            <Text style={styles.descriptionDownloadPhoto}>Завантажте фото</Text>
-            <TextInput
-                placeholder="Назва..."
-                placeholderTextColor="#BDBDBD"
-                maxLength={40}
-                style={styles.input}
-            />
-            <TextInput
-                placeholder="Місцевість..."
-                placeholderTextColor="#BDBDBD"
-                maxLength={40}
-                style={styles.input}
-            />
-            <View style={styles.trashBtn}>
-                <TrashIcon />
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.containerCreatePosts}>
+                <CameraFrame preview={preview} setPreview={setPreview} />
+                <Text style={styles.descriptionDownloadPhoto}>Завантажте фото</Text>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "height" : "padding"}
+                >
+                    <TextInput
+                        placeholder="Назва..."
+                        placeholderTextColor="#BDBDBD"
+                        maxLength={40}
+                        value={name}
+                        onChangeText={(name) => setName(name)}
+                        style={styles.input}
+                    />
+                    <View style={styles.inputLocationContainer}>
+                        <Text>
+                            <MapPinIcon />
+                        </Text>
+                        <TextInput
+                            placeholder="Місцевість..."
+                            placeholderTextColor="#BDBDBD"
+                            maxLength={40}
+                            value={place}
+                            onChangeText={(place) => setPlace(place)}
+                            style={styles.inputLocation}
+                        />
+                    </View>
+                </KeyboardAvoidingView>
+                <TouchableOpacity
+                    onPress={onPublishHandler}
+                    style={[styles.btn, { backgroundColor: isAllowed ? '#FF6C00' : "#F6F6F6" }]}
+                >
+                    <Text style={[styles.btnText, { color: isAllowed ? '#FFFFFF' : "#BDBDBD" }]}>Опублікувати</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.trashBtn}>
+                    <TrashIcon />
+                </TouchableOpacity>
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     );
 };
 
@@ -83,6 +130,29 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         borderBottomWidth: 1,
         borderBottomColor: "#E8E8E8",
+    },
+    inputLocationContainer: {
+        display: "flex",
+        gap: 4,
+        flexDirection: 'row',
+        alignItems: "center",
+        width: "100%",
+        height: 50,
+        marginBottom: 32,
+        borderBottomWidth: 1,
+        borderBottomColor: "#E8E8E8",
+    },
+    btn: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "100%",
+        height: 51,
+        borderRadius: 100,
+    },
+    btnText: {
+        textAlign: "center",
+        fontSize: 16,
     },
     trashBtn: {
         display: 'flex',

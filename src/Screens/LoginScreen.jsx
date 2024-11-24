@@ -95,21 +95,16 @@ export default LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     containerLogin: {
         position: 'relative',
-
         width: "100%",
         height: 455,
-        
         paddingTop: 32,
         paddingRight: 16,
         paddingBottom: 111,
         paddingLeft: 16,
-
         marginTop: "auto",
-
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         backgroundColor: "#FFFFFF",
-
         textAlign: "center",
     },
     title: {
@@ -124,11 +119,9 @@ const styles = StyleSheet.create({
     input: {
         width: "100%",
         height: 50,
-
         paddingTop: 16,
         paddingBottom: 15,
         paddingLeft: 16,
-
         borderWidth: 1,
         borderRadius: 8,
         backgroundColor: "#F6F6F6",
@@ -148,12 +141,9 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-
         width: "100%",
         height: 51,
-
         marginBottom: 16,
-
         borderRadius: 100,
         backgroundColor: "#FF6C00",
     },

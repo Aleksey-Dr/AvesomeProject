@@ -3,7 +3,9 @@ import {
     Text,
     View,
     Image,
+    TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import CommentsBtn from "./CommentsBtn";
 
@@ -13,6 +15,8 @@ import LikeIcon from "../icons/LikeIcon";
 const PostCard = (
     {card: { img, title, comments, likes, location, }}
 ) => {
+    const navigation = useNavigation();
+    
     return (
         <View>
             <Image source={img} style={styles.cardImg} />
@@ -26,10 +30,13 @@ const PostCard = (
                     <LikeIcon />
                     <Text style={styles.cardText}>{likes}</Text>
                 </View>
-                <View style={styles.cardLocation}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Map")}
+                    style={styles.cardLocation}
+                >
                     <MapPinIcon />
                     <Text style={styles.cardLocationText}>{location}</Text>
-                </View>
+                </TouchableOpacity>
             </View>
         </View>
     );

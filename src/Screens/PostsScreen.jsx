@@ -42,6 +42,7 @@ export default PostsScreen = () => {
                         renderItem={({ item }) => <PostCard card={item} />}
                         keyExtractor={(item) => item.id}
                         ItemSeparatorComponent={() => <View style={{ height: 32 }}></View>}
+                        contentContainerStyle={styles.postsList}
                     />
                 </View>
             </View>
@@ -78,5 +79,8 @@ const styles = StyleSheet.create({
     },
     emailContainer: {
         fontSize: 11,
+    },
+    postsList: {
+        paddingBottom: 110,
     },
 });
