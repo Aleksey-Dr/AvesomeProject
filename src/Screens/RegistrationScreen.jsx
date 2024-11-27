@@ -12,6 +12,13 @@ import {
     Keyboard,
 } from "react-native";
 
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    updateProfile,
+} from "firebase/auth";
+import { auth } from "../../config";
+
 import Background from "../components/Background";
 
 import PlusIcon from "../icons/PlusIcon";
@@ -29,17 +36,34 @@ export default RegistrationScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (login && email && password) {
                 console.log("Submitted with values:", {
                     login,
                     email,
                     password,
                 });
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(
+                      auth,
+                      email,
+                      password
+                    );
+                    const user = userCredential.user;
+                    await updateProfile(user, { displayName: login });
+                    navigation.navigate("Posts");
+                    Keyboard.dismiss();
+                } catch (error) {
+                    if (error.code === "auth/email-already-in-use") {
+                        alert("Email in use");
+                    }
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(error, error.code);
+                }
                 setLogin('');
                 setEmail('');
                 setPassword('');
-                navigation.navigate("Posts");
         } else {
             Alert.alert("Помилка", "Будь ласка, заповніть всі поля");
         }

@@ -6,15 +6,67 @@ import {
     View,
     Image,
     TextInput,
+    KeyboardAvoidingView,
 } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { nanoid } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    addDoc,
+    arrayUnion,
+    collection,
+    doc,
+    onSnapshot,
+    updateDoc,
+} from "firebase/firestore";
 
+import { db } from "../../config";
+import { selectComments } from "../redux/selectors";
+import { setComments } from "../redux/commentsSlice";
+
+import CommentCard from "../components/CommentCard";
 import SendMessageBtn  from "../components/SendMessageBtn";
 
 import SUNSET from "../../assets/sunset.jpg";
 
-import { comments } from "../data/comments";
+// import { comments } from "../data/comments";
 
 const CommentsScreen = () => {
+    const [message, setMessage] = useState();
+    const dispatch = useDispatch();
+    const comments = useSelector(selectComments);
+
+    const { params: { postId }, } = useRoute();
+
+    useEffect(() => {
+        onSnapshot(doc(db, "posts", postId), (snapshot) => {
+            if (snapshot.exists) {
+                dispatch(setComments(snapshot.data().comments || []));
+            }
+        });
+    }, []);
+
+    const onSendMessage = async () => {
+        try {
+            await updateDoc(doc(db, "posts", postId), {
+                comments: arrayUnion({
+                id: nanoid(),
+                message,
+                datetime: new Intl.DateTimeFormat("uk-UA", {
+                    dateStyle: "full",
+                    timeStyle: "medium",
+                    timeZone: "Australia/Sydney",
+                }).format(new Date()),
+                }),
+            });
+        
+            setMessage("");
+        } catch (error) {
+            console.log("onSendMessage", error);
+        }
+    };
+
     return (
         <View style={styles.containerComments}>
             <Image
@@ -24,25 +76,30 @@ const CommentsScreen = () => {
             <FlatList
                 data={comments}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <View style={styles.commentItem}>
-                        <View style={styles.commentText}>
-                            <Text style={styles.commentTextMessage}>{item.message}</Text>
-                            <Text style={styles.commentTextDatetime}>{item.datetime}</Text>
-                        </View>
-                        <Image source={item.avatar} style={styles.commentAvatar} />
-                    </View>
+                renderItem={({ item, index }) => (
+                    <CommentCard item={item} index={index} />
+                    // <View style={styles.commentItem}>
+                    //     <View style={styles.commentText}>
+                    //         <Text style={styles.commentTextMessage}>{item.message}</Text>
+                    //         <Text style={styles.commentTextDatetime}>{item.datetime}</Text>
+                    //     </View>
+                    //     <Image source={item.avatar} style={styles.commentAvatar} />
+                    // </View>
                 )}
                 contentContainerStyle={styles.commentsList}
             />
-            <View style={styles.commentInputContainer}>
-                <TextInput
-                    placeholder="Коментувати..."
-                    placeholderTextColor="#BDBDBD"
-                    style={styles.commentInput}
-                />
-                <SendMessageBtn />
-            </View>
+            <KeyboardAvoidingView>
+                <View style={styles.commentInputContainer}>
+                    <TextInput
+                        onChangeText={setMessage}
+                        placeholder="Коментувати..."
+                        placeholderTextColor="#BDBDBD"
+                        value={message}
+                        style={styles.commentInput}
+                    />
+                    <SendMessageBtn onPress={onSendMessage} />
+                </View>
+            </KeyboardAvoidingView>
         </View>
     );
 };

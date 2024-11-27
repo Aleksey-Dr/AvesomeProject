@@ -13,6 +13,10 @@ import {
     Platform,
 } from "react-native";
 
+import { auth } from "../../config";
+import { loginUser } from "../redux/authSlice";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 import Background from "../components/Background";
 
 export default LoginScreen = ({ navigation }) => {
@@ -28,9 +32,22 @@ export default LoginScreen = ({ navigation }) => {
                 email,
                 password,
             });
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    Keyboard.dismiss();
+                    navigation.navigate("Posts");
+                })
+                .catch((error) => {
+                    if (error.code === "auth/invalid-credential") {
+                        Alert.alert("Invalid email or password");
+                    }
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log("LoginError", error);
+                });
             setEmail('');
             setPassword('');
-            navigation.navigate("Posts");
         } else {
             Alert.alert("Помилка", "Будь ласка, заповніть всі поля");
         }
@@ -78,7 +95,7 @@ export default LoginScreen = ({ navigation }) => {
                             </View>
                         </View>
                         <Pressable onPress={handleSubmit} style={styles.btn}>
-                            <Text style={styles.btnText}>Зареєстуватися</Text>
+                            <Text style={styles.btnText}>Увійти</Text>
                         </Pressable>
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Registration")}

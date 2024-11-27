@@ -3,10 +3,10 @@ import { useNavigation } from "@react-navigation/native";
 
 import MessageIcon from "../icons/MessageIcon";
 
-const CommentsBtn = () => {
+const CommentsBtn = ({ id }) => {
     const navigation = useNavigation();
     return (
-        <TouchableOpacity onPress={() => navigation.navigate("Comments")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Comments", { postId: id })}>
             <MessageIcon />
         </TouchableOpacity>
     );

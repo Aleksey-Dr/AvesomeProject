@@ -13,7 +13,7 @@ import MapPinIcon from "../icons/MapPinIcon";
 import LikeIcon from "../icons/LikeIcon";
 
 const PostCard = (
-    {card: { img, title, comments, likes, location, }}
+    {card: { id, img, title, comments, likes, location, }}
 ) => {
     const navigation = useNavigation();
     
@@ -23,7 +23,7 @@ const PostCard = (
             <Text style={styles.cardTitle}>{title}</Text>
             <View style={styles.cardDescription}>
                 <View style={styles.cardComments}>
-                    <CommentsBtn />
+                    <CommentsBtn id={id} />
                     <Text style={styles.cardText}>{comments}</Text>
                 </View>
                 <View style={styles.cardComments}>

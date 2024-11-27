@@ -12,6 +12,10 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
+import * as MediaLibrary from "expo-media-library";
+import { collection, addDoc } from "firebase/firestore";
+
+import { db } from "../../config";
 
 import CameraFrame from "../components/CameraFrame";
 
@@ -27,9 +31,37 @@ const CreatePosts = () => {
     const [errorMsg, setErrorMsg] = useState(null);
     const navigation = useNavigation();
 
-    const onPublishHandler = () => {
-        console.log({ preview, name, place, location });
-        navigation.navigate("Posts");
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                setErrorMsg("Permission to access location was denied");
+                return;
+            }
+        
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+        })();
+    }, []);
+
+    const onPublishHandler = async () => {
+        try {
+            const docRef = await addDoc(
+              collection(db, "posts"),
+              {
+                preview,
+                name,
+                place,
+                location: JSON.stringify(location),
+              },
+              { merge: true }
+            );
+            // console.log("Document written with ID: ", docRef);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+      
+          navigation.navigate("Posts");
     };
 
     useEffect(() => {
