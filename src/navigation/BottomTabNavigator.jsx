@@ -6,18 +6,16 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigationState } from '@react-navigation/native';
 
-import RegistrationScreen from '../Screens/RegistrationScreen.jsx';
-import LoginScreen from '../Screens/LoginScreen.jsx';
 import PostsScreen from "../Screens/PostsScreen.jsx";
 import CreatePostsScreen from "../Screens/CreatePostsScreen.jsx";
 import ProfileScreen from "../Screens/ProfileScreen.jsx";
-import CommentsScreen from "../Screens/CommentsScreen.jsx";
-import MapScreen from "../Screens/MapScreen.jsx";
 
 import LogoutBtn from "../components/LogoutBtn.jsx";
 import PostsBtn from "../components/PostsBtn.jsx";
 import CreatePostsBtn from "../components/CreatePostsBtn.jsx";
 import ProfileBtn from "../components/ProfileBtn.jsx";
+import CommentsScreen from '../Screens/CommentsScreen.jsx';
+import MapScreen from '../Screens/MapScreen.jsx';
 import BackBtn from "../components/BackBtn.jsx";
 
 import ArrowLeftIcon from "../icons/ArrowLeftIcon.jsx";
@@ -36,30 +34,12 @@ export default BottomTabNavigator = () => {
 
     return (
         <Tabs.Navigator
-            initialRouteName="Registration"
+            initialRouteName="Posts"
             screenOptions={{
                 headerTitleAlign: "center",
                 headerRightContainerStyle: { paddingRight: 16 },
                 tabBarShowLabel: false,
             }}>
-            <Tabs.Screen
-                name="Registration"
-                component={RegistrationScreen}
-                options={{
-                    headerShown: false,
-                    tabBarStyle: { display: "none" },
-                    tabBarItemStyle: { display: "none" }
-                }}
-            />
-            <Tabs.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{
-                    headerShown: false,
-                    tabBarStyle: { display: "none" },
-                    tabBarItemStyle: { display: "none" }
-                }}
-            />
             <Tabs.Screen
                 name="Posts"
                 component={PostsScreen}
@@ -77,7 +57,8 @@ export default BottomTabNavigator = () => {
                     },
                 }}
             />
-            {isCreatePostsScreen ? <Tabs.Screen
+            {isCreatePostsScreen ? (
+                <Tabs.Screen
                     name="CreatePosts"
                     component={CreatePostsScreen}
                     options={{
@@ -93,7 +74,8 @@ export default BottomTabNavigator = () => {
                         tabBarItemStyle: { display: "none" }
                     }}
                 />
-                : <Tabs.Screen
+                ) : (
+                <Tabs.Screen
                     name="CreatePosts"
                     component={CreatePostsScreen}
                     options={{
@@ -107,7 +89,8 @@ export default BottomTabNavigator = () => {
                         ),
                         tabBarIcon: () => <CreatePostsBtn color="#4D4D4D" />
                     }}
-            />}
+                />)
+            }
             <Tabs.Screen
                 name="Profile"
                 component={ProfileScreen}
@@ -150,7 +133,7 @@ export default BottomTabNavigator = () => {
                 name="Map"
                 component={MapScreen}
                 options={{
-                    title: "Карта",
+                    title: "Локація",
                     headerStatusBarHeight: 44,
                     headerLeftContainerStyle: {
                         paddingLeft: 16,

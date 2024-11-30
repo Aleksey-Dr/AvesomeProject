@@ -8,6 +8,10 @@ import {
     Image,
     FlatList,
 } from "react-native";
+import { useSelector } from "react-redux";
+
+import { selectPosts } from "../redux/selectors";
+import useAuth from "../hooks/useAuth";
 
 import Background from "../components/Background";
 import LogoutBtn from "../components/LogoutBtn";
@@ -18,10 +22,12 @@ import CloseIcon from "../icons/CloseIcon";
 
 import IMAGE from "../../assets/avatar.jpg";
 
-import { posts } from "../data/data";
+// import { posts } from "../data/data";
 
 const ProfileScreen = () => {
     const [addedAvatar, setAddedAvatar] = useState(true);
+    const posts = useSelector(selectPosts);
+    const { user } = useAuth();
 
     return (
         <Background>
@@ -41,7 +47,9 @@ const ProfileScreen = () => {
                     </Pressable>
                 </View>
                 <LogoutBtn profileScreen={true} />
-                <Text style={styles.title}>Natali Romanova</Text>
+                <Text style={styles.title}>
+                    {user?.displayName || "Noname"}
+                </Text>
                 <FlatList
                     data={posts}
                     renderItem={({ item }) => <PostCard card={item} />}

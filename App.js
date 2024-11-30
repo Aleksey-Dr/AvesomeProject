@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import 'react-native-gesture-handler';
-import { Text, } from "react-native";
+import { Text, View, } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-
-import store from "./src/redux/store.js";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider, useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
+
+import store from "./src/redux/store.js";
 import { auth } from "./config";
 import { loginUser, logoutUser } from "./src/redux/authSlice.js";
 
@@ -37,7 +39,26 @@ const AuthListener = () => {
 };
 
 export default function App() {
-  console.log(process.env.GOOGLE_API_KEY);
+  const [fontsLoaded] = useFonts({
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+    "Roboto-Light": require("./assets/fonts/Roboto-Light.ttf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
+  });
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1 }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   
   return (
     <Provider store={store.store}>

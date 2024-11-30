@@ -12,15 +12,14 @@ import CommentsBtn from "./CommentsBtn";
 import MapPinIcon from "../icons/MapPinIcon";
 import LikeIcon from "../icons/LikeIcon";
 
-const PostCard = (
-    {card: { id, img, title, comments, likes, location, }}
-) => {
+const PostCard = ({ card }) => {
+    const { id, preview, name, comments, place, likes, location } = card;
     const navigation = useNavigation();
     
     return (
         <View>
-            <Image source={img} style={styles.cardImg} />
-            <Text style={styles.cardTitle}>{title}</Text>
+            <Image source={preview} style={styles.cardImg} />
+            <Text style={styles.cardTitle}>{name}</Text>
             <View style={styles.cardDescription}>
                 <View style={styles.cardComments}>
                     <CommentsBtn id={id} />
@@ -31,11 +30,11 @@ const PostCard = (
                     <Text style={styles.cardText}>{likes}</Text>
                 </View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("Map")}
+                    onPress={() => navigation.navigate("Map", { location: JSON.parse(location) })}
                     style={styles.cardLocation}
                 >
                     <MapPinIcon />
-                    <Text style={styles.cardLocationText}>{location}</Text>
+                    <Text style={styles.cardLocationText}>{place}</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -45,6 +44,7 @@ const PostCard = (
 const styles = StyleSheet.create({
     cardImg: {
         width: "100%",
+        height: 240,
         marginBottom: 8,
         borderRadius: 8,
     },

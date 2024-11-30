@@ -13,6 +13,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 import * as MediaLibrary from "expo-media-library";
+import { Camera } from "expo-camera";
 import { collection, addDoc } from "firebase/firestore";
 
 import { db } from "../../config";
@@ -56,7 +57,6 @@ const CreatePosts = () => {
               },
               { merge: true }
             );
-            // console.log("Document written with ID: ", docRef);
           } catch (e) {
             console.error("Error adding document: ", e);
           }
